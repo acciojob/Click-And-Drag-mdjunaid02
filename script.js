@@ -1,10 +1,25 @@
 const slider = document.querySelector('.items');
 
-slider.addEventListener('mousedown', function () {
-  // nothing needed here
+let isDown = false;
+let startX = 0;
+
+slider.addEventListener('mousedown', function (e) {
+  isDown = true;
+  startX = e.pageX;
 });
 
 slider.addEventListener('mousemove', function (e) {
-  // force scroll change
-  slider.scrollLeft += 200;
+  if (!isDown) return;
+
+  const walk = startX - e.pageX;
+  slider.scrollLeft += walk;
+  startX = e.pageX;
+});
+
+slider.addEventListener('mouseup', function () {
+  isDown = false;
+});
+
+slider.addEventListener('mouseleave', function () {
+  isDown = false;
 });
