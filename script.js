@@ -1,7 +1,7 @@
 const slider = document.querySelector('.items');
 
 let isDown = false;
-let startX = 0;
+let startX;
 
 slider.addEventListener('mousedown', function (e) {
   isDown = true;
