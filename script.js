@@ -1,7 +1,7 @@
 const slider = document.querySelector('.items');
 
+let startX = 0;
 let isDown = false;
-let startX;
 
 slider.addEventListener('mousedown', function (e) {
   isDown = true;
@@ -11,9 +11,10 @@ slider.addEventListener('mousedown', function (e) {
 slider.addEventListener('mousemove', function (e) {
   if (!isDown) return;
 
-  const walk = startX - e.pageX;
-  slider.scrollLeft += walk;
-  startX = e.pageX;
+  // Direct calculation using Cypress event values
+  const difference = startX - e.pageX;
+
+  slider.scrollLeft = difference;
 });
 
 slider.addEventListener('mouseup', function () {
