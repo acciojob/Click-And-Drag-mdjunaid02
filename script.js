@@ -1,48 +1,26 @@
-const container = document.querySelector('.items');
-const cubes = document.querySelectorAll('.item');
+const slider = document.querySelector('.items');
 
-let activeCube = null;
-let offsetX = 0;
-let offsetY = 0;
+let isDown = false;
+let startX;
+let scrollLeft;
 
-cubes.forEach(cube => {
-
-  cube.addEventListener('mousedown', function (e) {
-    activeCube = cube;
-
-    const rect = cube.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-
-    cube.style.cursor = "grabbing";
-  });
-
+slider.addEventListener('mousedown', (e) => {
+  isDown = true;
+  startX = e.pageX;
+  scrollLeft = slider.scrollLeft;
 });
 
-document.addEventListener('mousemove', function (e) {
-  if (!activeCube) return;
+slider.addEventListener('mousemove', (e) => {
+  if (!isDown) return;
 
-  const containerRect = container.getBoundingClientRect();
-
-  let newX = e.clientX - containerRect.left - offsetX;
-  let newY = e.clientY - containerRect.top - offsetY;
-
-  // Boundary constraints
-  const maxX = container.clientWidth - activeCube.offsetWidth;
-  const maxY = container.clientHeight - activeCube.offsetHeight;
-
-  if (newX < 0) newX = 0;
-  if (newY < 0) newY = 0;
-  if (newX > maxX) newX = maxX;
-  if (newY > maxY) newY = maxY;
-
-  activeCube.style.left = newX + "px";
-  activeCube.style.top = newY + "px";
+  const walk = startX - e.pageX;
+  slider.scrollLeft = scrollLeft + walk;
 });
 
-document.addEventListener('mouseup', function () {
-  if (activeCube) {
-    activeCube.style.cursor = "grab";
-  }
-  activeCube = null;
+slider.addEventListener('mouseup', () => {
+  isDown = false;
+});
+
+slider.addEventListener('mouseleave', () => {
+  isDown = false;
 });
